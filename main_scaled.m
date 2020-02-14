@@ -10,15 +10,22 @@ R_b = 1;
 %% electrical load : epsilon = phi_0^2 / (C_1 * beta * H^2);
 epsilon = 0.;
 %% alpha = C_2/C_1 (material property)
-alpha = 0.2;
+alpha = 0.3;
 %% aspect ratio of radii (geometry parameter)
-gamma = 0.4;
+gamma = 0.6;
 %% gamma = 0.4 alpha = 0.2 E = 0
 % there are some more initial guesses for different gamma and alpha values in the
 % 'initial_guess.txt' file.
-rho0 = 1.49;
-detai0 = 0.4691;
-P0 = 3.5424;
+% rho0 = 1.49;
+% detai0 = 0.4691;
+% P0 = 3.5424;
+%% gamma = 0.6 alpha = 0.3 E = 0.
+% rho0 = 1.7;
+% detai0 = 0.6813;
+% P0 = 2.2933;
+rho0 = 3.225;
+detai0 = 1.4118;
+P0 = 4.005;
 %%
 warning off;
 % step size of rho
@@ -32,7 +39,6 @@ t_span = linspace(0,pi,n_elements+1);
 rho0_vec = zeros(n_step,1);
 v_ratio = zeros(n_step,1);
 Pvec=zeros(n_step,1);
-
 %% An initial guess of scaling coefficient to make rho_step/P_step close to 1
 %scale_coeff = 1;
 scale_coeff = 0.05;
@@ -45,7 +51,6 @@ rho0 = rho0+rho_step;
     scale_coeff = abs(rho_step/P_step);
  end
  rho0_vec(i,1) = rho0;
- 
 % scale x0 using the coefficient
  x0_s=[P0,detai0/scale_coeff];
 
