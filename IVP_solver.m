@@ -1,4 +1,5 @@
 function [drhoatpi, etaatpi, tout, y] = IVP_solver(x)
+% ode solver
     global P epsilon alpha gamma t_span rho0
     P = x(1);
     y0 = [rho0,0,0,x(2)];

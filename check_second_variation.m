@@ -1,4 +1,5 @@
 function [l1,l2,detM,iszero,P_bifurcation,v_ratio_bifurcation] = check_second_variation( x, y, dy, wave_number)
+% check for thee determinant of the matrix M
 global epsilon alpha gamma t_span
 P = x(1);
 k = wave_number;

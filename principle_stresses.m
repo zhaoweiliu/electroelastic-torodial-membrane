@@ -1,4 +1,5 @@
-function [s11,s22,is_negative,v_negative_stress,p_negative_stress] = principle_stresses(y,x,t)
+function [s11,s22,is_negative] = principle_stresses(y,x,t)
+% Compute the principle stresses at all thetas.
 global epsilon alpha gamma t_span H R_b;
 lambda1 = sqrt(y(:,2).^2 + y(:,4).^2)/gamma;
 lambda2 = y(:,1)./(1+gamma*cos(t));
@@ -16,12 +17,6 @@ v_negative_stress = 0;
 p_negative_stress = 0;
 for ie = 1:length(s22)
     if s22(ie) < 0
-        area_deform = 0.;
-        for j = 1 : length(t_span)-1
-            area_deform = area_deform + (y(j,3) + y(j+1,3)) * abs(y(j+1,1) - y(j,1))/2;
-        end
-        v_negative_stress = (area_deform - 1/2 * pi * gamma^2)/ (1/2 * pi * gamma^2);
-        p_negative_stress = x(1);
         is_negative = 1;
     end
 end

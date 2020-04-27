@@ -1,4 +1,5 @@
 function [drhoatpi, etaatpi, tout, y] = IVP_solver_scaled(x)
+% ode solver with scaled value
 global epsilon alpha gamma t_span scale_coeff rho0
 P = x(1);
 y0 = [rho0/scale_coeff,0,0,x(2)];

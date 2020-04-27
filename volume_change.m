@@ -1,4 +1,5 @@
 function [v_ratio] = volume_change(y)
+% Compute the enclosed volume change of the toroidal membrane for a given y.
 global gamma t_span
 area = deformed_area(y);
 half_circle = 1/2 * pi * gamma^2;

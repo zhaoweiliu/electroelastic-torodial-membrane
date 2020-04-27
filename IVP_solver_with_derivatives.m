@@ -1,4 +1,5 @@
 function [drhoatpi, etaatpi, tout, y, dy] = IVP_solver_with_derivatives(x)
+% ode solver
 global epsilon alpha gamma t_span scale_coeff rho0
 P = x(1);
 y0 = [rho0;0;0;x(2)*scale_coeff];

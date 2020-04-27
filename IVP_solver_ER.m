@@ -1,4 +1,5 @@
 function [drhoatpi, etaatpi, tout, y] = IVP_solver_ER(x)
+% ode solver with energy relaxation
 global epsilon alpha gamma t_span rho0 H R_b
 P = x(1);
 y0 = [rho0,0,0,x(2)];

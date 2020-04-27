@@ -1,3 +1,10 @@
+%% This is the script file run the simulation.
+% This program solves a coupled ODEs using the ode45 and the fminsearchbnd 
+% function. It simulates the inflation of an electro-elastic toroidal
+% membrane.
+% Aurthor: Zhaowei Liu
+% Date: 27/04/2020
+
 clc,clear all;
 
 % % Global avariables:
@@ -8,24 +15,24 @@ H = 0.01;
 %% radius
 R_b = 1;
 %% electrical load : epsilon = phi_0^2 / (C_1 * beta * H^2);
-epsilon = 0.;
+epsilon = 0.01;
 %% alpha = C_2/C_1 (material property)
 alpha = 0.3;
 %% aspect ratio of radii (geometry parameter)
-gamma = 0.6;
+gamma = 0.4;
 %% gamma = 0.4 alpha = 0.2 E = 0
 % there are some more initial guesses for different gamma and alpha values in the
 % 'initial_guess.txt' file.
-% rho0 = 1.49;
-% detai0 = 0.4691;
-% P0 = 3.5424;
+rho0 = 1.49;
+detai0 = 0.4691;
+P0 = 3.5424;
 %% gamma = 0.6 alpha = 0.3 E = 0.
 % rho0 = 1.7;
 % detai0 = 0.6813;
 % P0 = 2.2933;
-rho0 = 3.225;
-detai0 = 1.4118;
-P0 = 4.005;
+% rho0 = 3.225;
+% detai0 = 1.4118;
+% P0 = 4.005;
 %%
 warning off;
 % step size of rho
@@ -60,9 +67,10 @@ rho0 = rho0+rho_step;
  
  [drhoatpi, etaatpi, t, y, dy] = IVP_solver_with_derivatives(x);
  
- [s11,s22,is_negative,v_negative_stress,p_negative_stress] = principle_stresses(y,x,t);
+ [s11,s22,is_negative] = principle_stresses(y,x,t);
  
  figure(1)
+ xlabel("\rho");ylabel("\eta");
  grid on;
  plot(y(:,1), y(:,3), 'linewidth', 0.5);
  hold on;
@@ -74,10 +82,10 @@ rho0 = rho0+rho_step;
          disp("With wave number = " + string(wavenumber) + ", we have bifurcation when volume change = "...
              +string(v_ratio_bifurcation(1)) + " and critial load = "+ string(P_bifurcation(1)));
      end
-     figure(2)
-     grid on;
-     plot(t_span,detM,'-b')
-     hold on;
+%      figure(2)
+%      grid on;
+%      plot(t_span,detM,'-b')
+%      hold on;
  end
  
  if is_negative == 1
@@ -98,6 +106,7 @@ rho0 = rho0+rho_step;
  detai0 = y(1,4);
 end
  figure(5)
+ xlabel("Volume change");ylabel("Pressure");
  plot(v_ratio,Pvec, 'linewidth', 1.5);
  hold on;
  a = [v_ratio'; Pvec'];
@@ -135,7 +144,7 @@ rho0 = rho0-rho_step_backward
  
  [drhoatpi, etaatpi, t, y, dy] = IVP_solver_with_derivatives(x);
  
- [s11,s22,is_negative,v_negative_stress,p_negative_stress] = principle_stresses(y,x,t);
+ [s11,s22,is_negative] = principle_stresses(y,x,t);
  
  figure(1)
  grid on;
@@ -156,7 +165,7 @@ end
  b = sort(b,2);
  a = [b a];
  fileID = fopen("gamma = "+string(gamma)+ ", alpha = "+string(alpha) + ...
-     ", epsilon = "+ string(epsilon) + ' .txt','w');
+     ", epsilon = "+ string(epsilon) + ' .csv','w');
  formatSpec = '%4.6f %4.3f\n';
  fprintf(fileID,formatSpec,a);
  fclose(fileID);
